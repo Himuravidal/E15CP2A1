@@ -1,6 +1,7 @@
 class HistoriesController < ApplicationController
   before_action :set_history, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user!, except:[:index, :show]
+  
   # GET /histories
   # GET /histories.json
   def index
@@ -15,6 +16,7 @@ class HistoriesController < ApplicationController
   # GET /histories/new
   def new
     @history = History.new
+    @history.user = current_user
   end
 
   # GET /histories/1/edit
@@ -25,6 +27,7 @@ class HistoriesController < ApplicationController
   # POST /histories.json
   def create
     @history = History.new(history_params)
+
 
     respond_to do |format|
       if @history.save
